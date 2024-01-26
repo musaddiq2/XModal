@@ -1,33 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 const Modal = ({ isOpen, onClose, children }) => {
-  const [modalRef, setModalRef] = useState(null);
+  const modalRef = useRef(null);
 
   useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+
     if (isOpen) {
-      // Attach event listener when the modal is open
-      const handleOutsideClick = (e) => {
-        if (modalRef && !modalRef.contains(e.target)) {
-          onClose();
-        }
-      };
-
       document.addEventListener("mousedown", handleOutsideClick);
-
-      return () => {
-        // Detach event listener when the modal is closed
-        document.removeEventListener("mousedown", handleOutsideClick);
-      };
     }
-  }, [isOpen, onClose, modalRef]);
 
-  const handleModalRef = (node) => {
-    setModalRef(node);
-  };
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isOpen, onClose]);
 
   return (
-    <div className={`modal ${isOpen ? "open" : ""}`} ref={handleModalRef}>
+    <div className={`modal ${isOpen ? "open" : ""}`} ref={modalRef}>
       <div className="modal-header">
         <h2>Fill Details</h2>
         <button onClick={onClose} className="close-modal-button">

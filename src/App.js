@@ -1,35 +1,58 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
+const Modal = ({ isOpen, onClose, children }) => {
+  const [modalRef, setModalRef] = useState(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      // Attach event listener when the modal is open
+      const handleOutsideClick = (e) => {
+        if (modalRef && !modalRef.contains(e.target)) {
+          onClose();
+        }
+      };
+
+      document.addEventListener("mousedown", handleOutsideClick);
+
+      return () => {
+        // Detach event listener when the modal is closed
+        document.removeEventListener("mousedown", handleOutsideClick);
+      };
+    }
+  }, [isOpen, onClose, modalRef]);
+
+  const handleModalRef = (node) => {
+    setModalRef(node);
+  };
+
+  return (
+    <div className={`modal ${isOpen ? "open" : ""}`} ref={handleModalRef}>
+      <div className="modal-header">
+        <h2>Fill Details</h2>
+        <button onClick={onClose} className="close-modal-button">
+          &times;
+        </button>
+      </div>
+      <div className="modal-content">{children}</div>
+    </div>
+  );
+};
+
 const App = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [dob, setDob] = useState("");
   const [errors, setErrors] = useState({});
-  const modalRef = useRef(null);
-
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
-        handleCloseModal();
-      }
-    };
-
-    document.addEventListener("click", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, []);
 
   const handleOpenModal = () => {
-    setIsOpen(true);
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsOpen(false);
+    setIsModalOpen(false);
     setErrors({});
   };
 
@@ -67,85 +90,70 @@ const App = () => {
       handleCloseModal();
     }
   };
-  // const handleOutsideClick = (e) => {
-  //   if (e.currentTarget.classList.contains("application")) {
-  //     handleCloseModal();
-  //   }
-  // };
 
   return (
-    <div className="application" ref={modalRef}>
+    <div className="application">
       <button onClick={handleOpenModal} className="open-form-button">
         Open Form
       </button>
 
-      {isOpen && (
-        <div id="modal" className={`modal ${isOpen ? "open" : ""}`}>
-          <div className="modal-header">
-            <h2>Fill Details</h2>
-            <button onClick={handleCloseModal} className="close-modal-button">
-              &times;
-            </button>
-          </div>
-          <div className="modal-content">
-            <form id="user-form" onSubmit={handleSubmit}>
-              <label htmlFor="username">Username:</label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                required
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              {errors.username && <p>{errors.username}</p>}
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <form id="user-form" onSubmit={handleSubmit}>
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          {errors.username && <p>{errors.username}</p>}
 
-              <label htmlFor="email">Email Address:</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {errors.email && <p>{errors.email}</p>}
+          <label htmlFor="email">Email Address:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="Enter your email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {errors.email && <p>{errors.email}</p>}
 
-              <label htmlFor="phone">Phone Number:</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                required
-                placeholder="Enter your phone number"
-                pattern="[0-9]{10}"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-              {errors.phone && <p>{errors.phone}</p>}
+          <label htmlFor="phone">Phone Number:</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            required
+            placeholder="Enter your phone number"
+            pattern="[0-9]{10}"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+          {errors.phone && <p>{errors.phone}</p>}
 
-              <label htmlFor="dob">Date of Birth:</label>
-              <input
-                type="date"
-                id="dob"
-                name="dob"
-                required
-                min="1900-01-01"
-                max="2003-12-31"
-                value={dob}
-                onChange={(e) => setDob(e.target.value)}
-              />
-              {errors.dob && <p>{errors.dob}</p>}
+          <label htmlFor="dob">Date of Birth:</label>
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            required
+            min="1900-01-01"
+            max="2003-12-31"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+          />
+          {errors.dob && <p>{errors.dob}</p>}
 
-              <button type="submit" className="submit-button">
-                Submit
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+        </form>
+      </Modal>
     </div>
   );
 };

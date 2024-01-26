@@ -52,9 +52,14 @@ const App = () => {
       handleCloseModal();
     }
   };
+  const handleOutsideClick = (e) => {
+    if (e.target.classList.contains('modal')) {
+      handleCloseModal();
+    }
+  };
 
   return (
-    <div className="application">
+    <div className="application" onClick={handleOutsideClick}>
       <button onClick={handleOpenModal} className="open-form-button">Open Form</button>
 
       {isOpen && (

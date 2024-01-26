@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 const App = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [dob, setDob] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [dob, setDob] = useState("");
   const [errors, setErrors] = useState({});
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        handleCloseModal();
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -24,24 +39,24 @@ const App = () => {
     const newErrors = {};
 
     if (!username) {
-      alert('Username is required.');
+      alert("Username is required.");
       return;
     }
-  
-    if (!email.includes('@')) {
-      alert('Invalid email. Please check your email address.');
+
+    if (!email.includes("@")) {
+      alert("Invalid email. Please check your email address.");
       return;
     }
-  
+
     if (phone.length !== 10) {
-      alert('Invalid phone number. Please enter a 10-digit phone number.');
+      alert("Invalid phone number. Please enter a 10-digit phone number.");
       return;
     }
-  
+
     const today = new Date();
     const inputDate = new Date(dob);
     if (inputDate > today) {
-      alert('Invalid date of birth. Please enter a valid date.');
+      alert("Invalid date of birth. Please enter a valid date.");
       return;
     }
 
@@ -52,21 +67,25 @@ const App = () => {
       handleCloseModal();
     }
   };
-  const handleOutsideClick = (e) => {
-    if (e.target.classList.contains('modal')) {
-      handleCloseModal();
-    }
-  };
+  // const handleOutsideClick = (e) => {
+  //   if (e.currentTarget.classList.contains("application")) {
+  //     handleCloseModal();
+  //   }
+  // };
 
   return (
-    <div className="application" onClick={handleOutsideClick}>
-      <button onClick={handleOpenModal} className="open-form-button">Open Form</button>
+    <div className="application" ref={modalRef}>
+      <button onClick={handleOpenModal} className="open-form-button">
+        Open Form
+      </button>
 
       {isOpen && (
-         <div id="modal" className={`modal ${isOpen ? 'open' : ''}`}>
+        <div id="modal" className={`modal ${isOpen ? "open" : ""}`}>
           <div className="modal-header">
             <h2>Fill Details</h2>
-            <button onClick={handleCloseModal} className="close-modal-button">&times;</button>
+            <button onClick={handleCloseModal} className="close-modal-button">
+              &times;
+            </button>
           </div>
           <div className="modal-content">
             <form id="user-form" onSubmit={handleSubmit}>
@@ -120,7 +139,9 @@ const App = () => {
               />
               {errors.dob && <p>{errors.dob}</p>}
 
-              <button type="submit" className="submit-button">Submit</button>
+              <button type="submit" className="submit-button">
+                Submit
+              </button>
             </form>
           </div>
         </div>

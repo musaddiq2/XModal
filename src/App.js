@@ -21,14 +21,14 @@ const Modal = ({ isOpen, onClose, children }) => {
   }, [isOpen, onClose]);
 
   return (
-    <div className={`application ${isOpen ? "open" : ""}`} ref={modalRef}>
-      <div className="application-header">
+    <div className={`modal ${isOpen ? "open" : ""}`} ref={modalRef}>
+      <div className="modal-header">
         <h2>Fill Details</h2>
         <button onClick={onClose} className="close-modal-button">
           &times;
         </button>
       </div>
-      <div className="application-content">{children}</div>
+      <div className="modal-content">{children}</div>
     </div>
   );
 };
@@ -86,7 +86,7 @@ const App = () => {
   };
 
   return (
-    <div className="modal">
+    <div className="application">
       <button onClick={handleOpenModal} className="open-form-button">
         Open Form
       </button>

@@ -29,22 +29,22 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.modal.open {
+.application.open {
   display: block;
 }
 
-.modal-header {
+.application-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
 }
 
-.modal-header h2 {
+.application-header h2 {
   margin: 0;
 }
 
-.modal-content {
+.application-content {
   max-width: 400px;
   margin: 10px ;
 }

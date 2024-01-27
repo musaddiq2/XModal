@@ -67,7 +67,6 @@ const User = ({ closeModal }) => {
     required
     className="input-field"
     />
-    
     </div>
     <div className="form-group">
     <label htmlFor="email">Email Address:</label>

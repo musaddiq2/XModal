@@ -6,7 +6,11 @@ const Modal = ({ isOpen, onClose, children }) => {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(e.target) &&
+        e.target.getAttribute("data-test") !== "modal"
+      ) {
         onClose();
       }
     };
@@ -22,13 +26,10 @@ const Modal = ({ isOpen, onClose, children }) => {
 
   return (
     <div className={`modal ${isOpen ? "open" : ""}`} ref={modalRef}>
-      <div className="modal-header">
-        <h2>Fill Details</h2>
-        <button onClick={onClose} className="close-modal-button">
-          &times;
-        </button>
-      </div>
       <div className="modal-content">{children}</div>
+      <button onClick={onClose} className="close-modal-button">
+        &times;
+      </button>
     </div>
   );
 };

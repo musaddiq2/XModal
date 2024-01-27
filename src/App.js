@@ -21,7 +21,7 @@ const Modal = ({ isOpen, onClose, children }) => {
   }, [isOpen, onClose]);
 
   return (
-    <div className={`modal ${isOpen ? "open" : ""}`} ref={modalRef}>
+    <div className={`application ${isOpen ? "open" : ""}`} ref={modalRef}>
       <div className="modal-header">
         <h2>Fill Details</h2>
         <button onClick={onClose} className="close-modal-button">

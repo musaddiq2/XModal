@@ -86,7 +86,7 @@ const App = () => {
   };
 
   return (
-    <div className="application">
+    <div className="modal">
       <button onClick={handleOpenModal} className="open-form-button">
         Open Form
       </button>

@@ -1,88 +1,50 @@
-.application {
-  font-family: Arial, sans-serif;
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  max-width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.modal {
+  max-width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #fff;
+  padding: 20px;
   align-items: center;
+  justify-content: left;
 }
-
-.open-form-button {
-  background-color: dodgerblue;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  margin-top: 10px;
-  border-radius: 5px;
-}
-
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding:10px  20px;
-  border: 1px solid #ccc;
-  z-index: 1000;
-  display: none;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.modal.open {
-  display: block;
-}
-
-.modal-header {
+.open {
+  max-width: 100%;
+  height: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  background-color: #7f7f7f;
+  padding: 20px;
   align-items: center;
-  margin-bottom: 15px;
-}
-
-.modal-header h2 {
-  margin: 0;
+  justify-content: left;
+  cursor: pointer;
 }
 
 .modal-content {
-  max-width: 400px;
-  margin: 10px ;
+  margin-top: 40px;
+  max-width: 800px;
+
+  display: flex;
+  background-color: #fff;
+  padding: 40px;
+  align-items: center;
+  justify-content: center;
+  cursor: crosshair;
 }
 
 .submit-button {
-  background-color: dodgerblue;
-  color: white;
-  padding: 10px 20px;
+  padding: 10px 10px;
+  font-size: 16px;
   border: none;
+  border-radius: 4px;
+  background-color: #3d80e3;
+  color: white;
   cursor: pointer;
-  margin-top: 10px;
-  border-radius: 5px;
 }
-
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="tel"]:focus,
-input[type="date"]:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 122, 255, 0.5);
-}
-
-.error {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-
-
